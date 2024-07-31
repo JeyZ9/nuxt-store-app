@@ -2,21 +2,13 @@
 
 import Sidebar from '~/components/backendComponents/sidebar/Sidebar.vue'
 import Header from '@/components/backendComponents/header/Header.vue'
-import { useDisplay, useTheme } from 'vuetify'
+import { useDisplay } from 'vuetify'
+import { useTheme } from '~/composables/useTheme';
 
 const { mdAndUp, mdAndDown } = useDisplay()
-const drawer = ref(undefined || true)
+const drawer = ref(true)
 
-const theme: any = useTheme()
-
-// Toggle Theme
-const toggleTheme = () => {
-    theme.global.name.value = theme.global.current.value.dark ? 'lightTheme':'darkTheme'
-    // set to local storage
-    localStorage.setItem('theme_store', theme.global.name.value)
-}
-
-// console.log(theme.global.name.value)
+const { theme, toggleTheme } = useTheme();
 
 </script>
 

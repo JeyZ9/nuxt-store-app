@@ -1,5 +1,37 @@
 <script setup lang="ts">
+    // create variable bind form and data
+    const username = ref('');
+    const password = ref('');
+    const email = ref('');
 
+    // require useFormRules for validate form
+    const { ruleRequired, ruleEmail, rulePassLen } = useFormRules();
+
+    // crate function for submit form
+    const submitForm = () => {
+        // check logical thought validate or not
+        if(
+            ruleRequired(username.value) == true &&
+            ruleRequired(email.value) == true &&
+            ruleEmail(email.value) == true &&
+            ruleRequired(password.value) == true &&
+            rulePassLen(password.value) == true
+        ){
+            console.log('Username:', username.value)
+            console.log('Email:', email.value)
+            console.log('Password:', password.value)
+        }
+    }
+    
+    useHead({
+        title:'Register',
+        meta: [
+            {
+                name: 'description',
+                content: 'Register page'
+            }
+        ]
+    })
 </script>
 
 <template>
@@ -23,9 +55,11 @@
                     <VCol cols="12" md="6" class="pa-3">
                         <h1>Register</h1>
                         <p class="text-medium-emphasis">Input your username, email and password</p>
-                        <VForm class="mt-7">
+                        <VForm class="mt-7" @submit.prevent="submitForm">
                             <div class="mt-1">
                                 <VTextField 
+                                    v-model="username"
+                                    :rules="[ruleRequired]"
                                     label="Username" 
                                     variant="outlined"
                                     prepend-inner-icon="mdi-account"
@@ -36,6 +70,8 @@
                             </div>
                             <div class="mt-1">
                                 <VTextField 
+                                    v-model="email"
+                                    :rules="[ruleRequired, ruleEmail]"
                                     label="Email" 
                                     variant="outlined"
                                     prepend-inner-icon="mdi-email"
@@ -46,6 +82,8 @@
                             </div>
                             <div class="mt-1">
                                 <VTextField 
+                                    v-model="password"
+                                    :rules="[ruleRequired, rulePassLen]"
                                     label="Password" 
                                     variant="outlined"
                                     prepend-inner-icon="mdi-lock"

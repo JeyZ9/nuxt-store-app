@@ -1,5 +1,111 @@
 <script setup lang="ts">
 
+    // require useRouter for change page
+    const router = useRouter();
+
+    // import Sweetalert2
+    const { $swal } : any = useNuxtApp();
+
+    // require useCookie  for keep data into the cookie storage
+    const token = useCookie(
+        'token',
+        {
+            // Set the cookie expiration date after 1 hour.
+            maxAge: 60*60
+        }
+    )
+
+    // เรียกใช้ useCookie สำหรับเก็บข้อมูลลง user data
+    const userData = useCookie(
+        'userData', {
+            // ตั้งค่า cookie ให้หมดอายุหลังจาก 1 ชั่วโมง
+            maxAge: 60 * 60
+        }
+    )
+    
+
+    // create variable bind form and data
+    const username = ref('');
+    const password = ref('');
+
+    // require useFormRules for validate form
+    const { ruleRequired, rulePassLen } = useFormRules();
+
+    // crate function for submit form
+    const submitForm = () => {
+        // check logical thought validate or not
+        if(
+            ruleRequired(username.value) == true &&
+            ruleRequired(password.value) == true &&
+            rulePassLen(password.value) == true
+        ){
+            // console.log('Username:', username.value);
+            // console.log('Password:', password.value);
+
+            // create variable config for runtime config
+            const config = useRuntimeConfig();
+            const SPRINGAPI_URL = config.public.url;
+
+            // console.log("SPRINGAPI_URL",SPRINGAPI_URL)
+            // console.log("SPRINGAPI_IMAGE",SPRINGAPI_IMAGE)
+
+            // login api with spring boot APIs
+            useFetch(
+                `${SPRINGAPI_URL}/authenticate/login`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username.value,
+                        password: password.value
+                    }),
+                    onResponse({ request, response, options }){
+                        // console.log(response);
+                        if(response.status == 401){
+                            // console.log('Username or Password is incorrect')
+                            // alert('Username or Password is incorrect!')
+                            $swal.fire({
+                                title: 'Login failed',
+                                text: 'Please check your email and password',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            })
+                        }else{
+                            // console.log('Login success!')
+                            // alert('Login success!')
+                            $swal.fire({
+                                title: 'Login Success',
+                                text: 'Welcome to the system',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            })
+
+                            // save user data into cookie
+                            userData.value = response._data.data;
+
+                            // save token into cookie
+                            token.value = JSON.stringify(response._data.data.token);
+
+                            // send dashboard page
+                            router.push('/backend/dashboard')
+                        }
+                    }
+                }
+            )
+        }
+    }
+
+    useHead({
+        title:'Login',
+        meta: [
+            {
+                name: 'description',
+                content: 'Login page'
+            }
+        ]
+    })
 </script>
 
 <template>
@@ -22,20 +128,24 @@
                 <VRow no-gutters align="center" justify="center">
                     <VCol cols="12" md="6" class="pa-3">
                         <h1>Login</h1>
-                        <p class="text-medium-emphasis">Input your email and password</p>
-                        <VForm class="mt-7">
+                        <p class="text-medium-emphasis">Input your username and password</p>
+                        <VForm class="mt-7" @submit.prevent="submitForm">
                             <div class="mt-1">
                                 <VTextField 
-                                    label="Email" 
+                                    v-model="username"
+                                    :rules="[ruleRequired]"
+                                    label="Username" 
                                     variant="outlined"
-                                    prepend-inner-icon="mdi-email"
-                                    id="email"
-                                    name="email"
-                                    type="email"
+                                    prepend-inner-icon="mdi-account"
+                                    id="username"
+                                    name="username"
+                                    type="username"
                                 />
                             </div>
                             <div class="mt-1">
                                 <VTextField 
+                                    v-model="password"
+                                    :rules="[ruleRequired, rulePassLen]"
                                     label="Password" 
                                     variant="outlined"
                                     prepend-inner-icon="mdi-lock"
