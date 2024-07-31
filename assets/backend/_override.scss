@@ -1,0 +1,155 @@
+html {
+  font-family: $font-family;
+
+  .v-application {
+    [class*="text-"] {
+      font-family: $font-family, sans-serif !important;
+    }
+    font-family: $font-family, sans-serif !important;
+  }
+
+  .elevation-10 {
+    box-shadow: $box-shadow !important;
+  }
+  .elevation-5 {
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.34) !important;
+  }
+  .v-card-text {
+    padding: 20px 30px 30px;
+  }
+  .v-card-header {
+    padding: 30px 30px 0.625rem;
+  }
+  .v-card-actions {
+    padding: 0.625rem 30px 30px;
+  }
+  .v-card {
+    border-radius: 6px;
+    width: 100%;
+    box-shadow: $box-shadow !important;
+  }
+  .v-btn {
+    text-transform: capitalize;
+    letter-spacing: $btn-letter-spacing;
+    transition: 0.05 ease-in;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  .v-btn-group .v-btn {
+    height: inherit !important;
+  }
+
+  .v-navigation-drawer__scrim.fade-transition-leave-to {
+    display: none;
+  }
+
+  .theme-carousel .v-carousel__progress {
+    position: absolute;
+  }
+  .v-theme--light,
+  .v-theme--dark {
+    --v-theme-on-warning: 255, 255, 255;
+    --v-theme-on-success: 255, 255, 255;
+    --v-theme-on-secondary: 255, 255, 255;
+  }
+  .v-card.w-auto {
+    width: auto !important;
+  }
+
+  .bg-info-grediant {
+    background: #316ce8;
+    background: -webkit-linear-gradient(
+      legacy-direction(to right),
+      #316ce8,
+      #607df9
+    );
+    background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      from(#316ce8),
+      to(#607df9)
+    );
+    background: -webkit-linear-gradient(left, #316ce8, #607df9);
+    background: linear-gradient(90deg, #316ce8 0, #607df9);
+  }
+
+  .blog-card {
+    transition: 0.2s ease-in;
+    &:hover {
+      transform: translateY(-10px);
+    }
+    .date-badge {
+      padding: 10px;
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      span {
+        display: block;
+        font-size: 30px;
+        line-height: 30px;
+      }
+    }
+    .blog-title {
+      color: #263238 !important;
+      line-height: 22px;
+      &:hover {
+        color: #607df9 !important;
+      }
+    }
+  }
+
+  .btn-danger-gradient {
+    background: #ff4d7e;
+    background: -webkit-linear-gradient(
+      legacy-direction(to right),
+      #ff4d7e,
+      #ff6a5b
+    );
+    background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      from(#ff4d7e),
+      to(#ff6a5b)
+    );
+    background: -webkit-linear-gradient(left, #ff4d7e, #ff6a5b);
+    background: linear-gradient(90deg, #ff4d7e 0, #ff6a5b);
+    border: 0px;
+  
+    &:hover {
+      background: #ff6a5b;
+      background: -webkit-linear-gradient(
+        legacy-direction(to right),
+        #ff6a5b,
+        #ff4d7e
+      );
+      background: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        from(#ff6a5b),
+        to(#ff4d7e)
+      );
+      background: -webkit-linear-gradient(left, #ff6a5b, #ff4d7e);
+      background: linear-gradient(90deg, #ff6a5b 0, #ff4d7e);
+    }
+  
+    &.active,
+    &:active,
+    &:focus {
+      box-shadow: 0px;
+      opacity: 1;
+    }
+  }
+
+  // .v-toolbar__content{
+  //   height: auto !important;
+  // }
+
+}
