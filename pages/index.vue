@@ -11,22 +11,22 @@
         'token',
         {
             // Set the cookie expiration date after 1 hour.
-            maxAge: 60*60
+            maxAge: 60 * 60 * 24
         }
     )
 
     // เรียกใช้ useCookie สำหรับเก็บข้อมูลลง user data
     const userData = useCookie(
         'userData', {
-            // ตั้งค่า cookie ให้หมดอายุหลังจาก 1 ชั่วโมง
-            maxAge: 60 * 60
+            // ตั้งค่า cookie ให้หมดอายุหลังจาก 1 ady
+            maxAge: 60 * 60 * 24
         }
     )
     
 
     // create variable bind form and data
-    const username = ref('');
-    const password = ref('');
+    const username = ref('admin1');
+    const password = ref('admin123');
 
     // require useFormRules for validate form
     const { ruleRequired, rulePassLen } = useFormRules();
@@ -82,14 +82,22 @@
                                 confirmButtonText: 'OK'
                             })
 
+                            
+
                             // save user data into cookie
                             userData.value = response._data.data;
 
                             // save token into cookie
                             token.value = JSON.stringify(response._data.data.token);
 
-                            // send dashboard page
-                            router.push('/backend/dashboard')
+                            //Delay 2 seconds
+                            setTimeout(() => {
+                                // close popup
+                                $swal.close();
+                                // move to dashboard
+                                router.push('/backend/dashboard')
+
+                            }, 2000)
                         }
                     }
                 }
