@@ -1,6 +1,6 @@
 import type { Product, ProductList } from './../types/product.d';
-import type { Category, CategoryList } from '~/types/category';
-import { useFetch } from '#app';
+import type { CategoryList } from '~/types/category';
+// import { useFetch } from '#app';
 
 export default() => {
 
@@ -47,11 +47,41 @@ export default() => {
         )
     }
 
-    // function for get all product data
-    const getAllProducts = async(page: number, limit: number) => {
+    // // function for get all product data
+    // const getAllProducts = async(page: number, limit: number) => {
+    //     return fetchWithTokenCheck<ProductList>(
+    //         `${SPRINGAPI_URL}/products?page=${page}&limit=${limit}`,
+    //         {
+    //             method: 'GET',
+    //             headers: headers,
+    //             cache: 'no-cache'
+    //         }
+    //     )
+    // }
+
+    // function สำหรับดึงข้อมูล product ทั้งหมด
+    const getAllProducts = async(
+        page: number, 
+        limit: number, 
+        searchQuery: string = '', 
+        selectedCategory: number | null = null
+    ) => {
+
+        // สร้าง URL Parameters ตามค่าที่ได้รับ
+        let url = `${SPRINGAPI_URL}/products?page=${page}&limit=${limit}`
+
+        // ถ้ามีการค้นหา
+        if(searchQuery) {
+            url += `&searchQuery=${encodeURIComponent(searchQuery)}`
+        }
+
+        // ถ้ามีการเลือกหมวดหมู่
+        if(selectedCategory !== null) {
+            url += `&selectedCategory=${selectedCategory}`
+        }
+
         return fetchWithTokenCheck<ProductList>(
-            `${SPRINGAPI_URL}/products?page=${page}&limit=${limit}`,
-            {
+            url, {
                 method: 'GET',
                 headers: headers,
                 cache: 'no-cache'
